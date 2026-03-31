@@ -1,0 +1,9 @@
+Flask
+gunicorn
+openai
+tiktoken
+hdbcli
+Pillow
+opencv-python-headless
+pytesseract 
+python-dotenv

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Reports</title>
+    <style>
+        /* ===== THEME VARIABLES (same as chatbot page) ===== */
+:root {
+    --ink:        #0b0f1a;
+    --ink-soft:   #3d4558;
+    --ink-mute:   #8a94a6;
+    --paper:      #f7f6f2;
+    --paper-2:    #efede7;
+    --paper-3:    #dedad0;
+    --ap-blue:    #1565c0;
+    --ap-blue-2:  #1976d2;
+    --ap-blue-lt: #e3eef9;
+    --accent-red: #c62828;
+    --gold:       #b8962e;
+    --white:      #ffffff;
+    --shadow-xs:  0 1px 3px rgba(0,0,0,0.07);
+    --shadow-sm:  0 2px 10px rgba(0,0,0,0.08);
+}
+
+/* ===== BODY ===== */
+body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    margin: 0;
+    padding: 24px;
+}
+
+/* ===== TITLE ===== */
+h2 {
+    font-family: 'Noto Serif Telugu', serif;
+    font-size: 22px;
+    margin-bottom: 20px;
+    color: var(--ink);
+}
+
+/* ===== TABLE ===== */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--white);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow-xs);
+    border: 1px solid var(--paper-3);
+}
+
+/* ===== HEADER ===== */
+th {
+    background: linear-gradient(90deg, var(--ap-blue), var(--ap-blue-2));
+    color: white;
+    font-weight: 600;
+    font-size: 13px;
+    padding: 12px;
+    text-align: left;
+}
+
+/* ===== ROWS ===== */
+td {
+    padding: 12px;
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    border-bottom: 1px solid var(--paper-2);
+}
+
+/* ===== ZEBRA STRIPES ===== */
+tr:nth-child(even) {
+    background: var(--paper);
+}
+
+/* ===== HOVER EFFECT ===== */
+tr:hover {
+    background: var(--ap-blue-lt);
+    transition: 0.2s;
+}
+
+/* ===== REPORT TEXT ===== */
+td:last-child {
+    font-family: 'Noto Serif Telugu', serif;
+    line-height: 1.6;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+    body {
+        padding: 12px;
+    }
+
+    table, thead, tbody, th, td, tr {
+        display: block;
+    }
+
+    thead {
+        display: none;
+    }
+
+    tr {
+        margin-bottom: 14px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: var(--shadow-xs);
+        padding: 10px;
+    }
+
+    td {
+        border: none;
+        padding: 6px 8px;
+        font-size: 13px;
+    }
+
+    td::before {
+        content: attr(data-label);
+        font-weight: 600;
+        color: var(--ink-mute);
+        display: block;
+        font-size: 11px;
+    }
+}
+    </style>
+</head>
+
+<body>
+
+    <h2>Saved Reports</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Date</th>
+                <th>Time</th>
+            </tr>
+        </thead>
+        <tbody id="reportTable"></tbody>
+    </table>
+
+    <script>
+        async function loadReports() {
+
+            let res = await fetch("/get_reports");
+            let data = await res.json();
+
+            let table = document.getElementById("reportTable");
+            table.innerHTML = "";
+
+            data.forEach(r => {
+                let row = `
+            <tr>
+                <td>${r.ID}</td>
+                <td>${r.NAME}</td>
+                <td>${r.DESCRIPTION}</td>
+                <td>${r.REPORT_DATE}</td>
+                <td>${r.REPORT_TIME}</td>
+            </tr>
+        `;
+                table.innerHTML += row;
+            });
+        }
+
+        loadReports();
+    </script>
+
+</body>
+
+</html>
