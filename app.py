@@ -9,6 +9,10 @@ import pytesseract
 import cv2
 from PIL import Image
 from datetime import datetime
+from dotenv import load_dotenv
+
+load_dotenv()
+
 pytesseract.pytesseract.tesseract_cmd = "/usr/bin/tesseract"
 app = Flask(__name__)
 
@@ -16,7 +20,7 @@ app = Flask(__name__)
 # MODEL      = "gpt-oss:120b-cloud"
 
  
-client = OpenAI(api_key="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")
+client = OpenAI(os.getenv("API_KEY"))
  
 MODEL = "gpt-5.4-mini"
 try:
